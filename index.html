@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uzum Market – O'zbekiston online bozori</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            uzum: {
+              DEFAULT: '#7000ff',
+              dark: '#5500cc',
+              light: '#9333ea',
+              pale: '#f3e8ff',
+              50: '#faf5ff',
+              100: '#f3e8ff',
+              200: '#e9d5ff',
+              500: '#a855f7',
+              600: '#9333ea',
+              700: '#7e22ce',
+              900: '#4c1d95',
+            }
+          },
+          fontFamily: {
+            sans: ['Onest', 'sans-serif'],
+          },
+          animation: {
+            'slide-in': 'slideIn 0.3s ease-out',
+            'fade-in': 'fadeIn 0.4s ease-out',
+            'bounce-cart': 'bounceCart 0.5s ease',
+          },
+          keyframes: {
+            slideIn: { from: { opacity: 0, transform: 'translateY(-10px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+            fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
+            bounceCart: { '0%,100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.3)' } },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Onest', sans-serif; }
+    .hero-gradient { background: linear-gradient(135deg, #7000ff 0%, #b44bff 40%, #ff6ec7 100%); }
+    .hero-gradient-2 { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
+    .hero-gradient-3 { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+    .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(112,0,255,0.15); }
+    .cart-badge-animate { animation: bounceCart 0.4s ease; }
+    @keyframes bounceCart { 0%,100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+    .slider-dot.active { background: #7000ff; width: 24px; border-radius: 4px; }
+    .dropdown-menu { display: none; animation: slideIn 0.25s ease-out; }
+    .dropdown-menu.open { display: block; }
+    @keyframes slideIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
+    .star-filled { color: #f59e0b; }
+    .star-empty { color: #d1d5db; }
+    .search-bar:focus-within { box-shadow: 0 0 0 3px rgba(112,0,255,0.2); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 3px; }
+    .category-item:hover .category-icon { background: #7000ff; color: white; }
+    .add-to-cart-btn { transition: all 0.2s ease; }
+    .add-to-cart-btn:hover { transform: scale(1.1); }
+    .add-to-cart-btn:active { transform: scale(0.95); }
+    .topbar-link:hover { color: #7000ff; }
+    .nav-logo-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- ═══════════════════════════════════════════ TOP BAR ═══════════════════ -->
+  <div class="bg-gray-100 border-b border-gray-200 text-xs text-gray-500 py-1.5">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between flex-wrap gap-y-1">
+      <!-- Left -->
+      <div class="flex items-center gap-4">
+        <button class="flex items-center gap-1 topbar-link transition-colors font-medium text-gray-600" id="cityBtn">
+          <i data-lucide="map-pin" class="w-3 h-3 text-uzum"></i>
+          <span>Toshkent</span>
+          <i data-lucide="chevron-down" class="w-3 h-3"></i>
+        </button>
+        <a href="#" class="topbar-link transition-colors hidden sm:block">Savatchani kuzatish</a>
+        <a href="#" class="topbar-link transition-colors hidden sm:block">Do'konlar</a>
+        <a href="#" class="topbar-link transition-colors hidden sm:block">Yordam</a>
+      </div>
+      <!-- Right -->
+      <div class="flex items-center gap-3">
+        <button onclick="setLang('uz')" id="lang-uz" class="font-semibold text-uzum">O'zb</button>
+        <span class="text-gray-300">|</span>
+        <button onclick="setLang('ru')" id="lang-ru" class="hover:text-uzum transition-colors">Рус</button>
+        <span class="text-gray-300 hidden sm:block">|</span>
+        <a href="#" class="topbar-link transition-colors hidden sm:block flex items-center gap-1">
+          <i data-lucide="smartphone" class="w-3 h-3"></i> Ilova
+        </a>
+        <a href="#" class="topbar-link transition-colors hidden sm:block flex items-center gap-1">
+          <i data-lucide="store" class="w-3 h-3"></i> Sotuvchilar uchun
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ MAIN HEADER ═══════════════ -->
+  <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3 md:gap-5">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 shrink-0 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-uzum to-purple-400 flex items-center justify-center shadow-lg">
+          <span class="text-white font-black text-sm tracking-tight">U</span>
+        </div>
+        <div class="hidden sm:flex flex-col leading-none">
+          <span class="font-black text-lg text-uzum tracking-tight leading-none">uzum</span>
+          <span class="text-[9px] text-gray-400 font-medium tracking-widest uppercase">market</span>
+        </div>
+      </a>
+
+      <!-- Katalog Button -->
+      <div class="relative shrink-0">
+        <button id="katalogBtn" onclick="toggleKatalog()"
+          class="flex items-center gap-2 bg-uzum hover:bg-uzum-dark text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 shadow-lg shadow-uzum/20">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i>
+          <span class="hidden sm:block">Katalog</span>
+          <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform" id="katalogChevron"></i>
+        </button>
+
+        <!-- Katalog Dropdown -->
+        <div id="katalogMenu" class="dropdown-menu absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 py-2">
+          <div class="px-4 py-2 text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Kategoriyalar</div>
+          <div id="katalogItems"></div>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="flex-1 relative search-bar rounded-xl border-2 border-gray-200 focus-within:border-uzum bg-gray-50 transition-all duration-200">
+        <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        <input type="text" placeholder="Mahsulot, brend yoki toifa qidiring..."
+          class="w-full bg-transparent pl-10 pr-4 py-2.5 text-sm outline-none text-gray-700 placeholder-gray-400 font-medium" />
+        <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-uzum text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-uzum-dark transition-colors">
+          Qidirish
+        </button>
+      </div>
+
+      <!-- Icons Right -->
+      <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+        <!-- Favorites -->
+        <button class="relative flex flex-col items-center gap-0.5 p-2 rounded-xl hover:bg-gray-50 transition-colors group">
+          <i data-lucide="heart" class="w-5 h-5 text-gray-500 group-hover:text-red-400 transition-colors"></i>
+          <span class="text-[10px] text-gray-400 hidden sm:block">Sevimli</span>
+        </button>
+
+        <!-- Cart -->
+        <button onclick="openCart()" class="relative flex flex-col items-center gap-0.5 p-2 rounded-xl hover:bg-uzum-pale transition-colors group">
+          <div class="relative">
+            <i data-lucide="shopping-bag" class="w-5 h-5 text-gray-500 group-hover:text-uzum transition-colors" id="cartIcon"></i>
+            <span id="cartBadge"
+              class="absolute -top-2 -right-2 bg-uzum text-white text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center hidden px-1">
+              0
+            </span>
+          </div>
+          <span class="text-[10px] text-gray-400 hidden sm:block">Savat</span>
+        </button>
+
+        <!-- Profile -->
+        <button class="flex flex-col items-center gap-0.5 p-2 rounded-xl hover:bg-gray-50 transition-colors group">
+          <i data-lucide="user" class="w-5 h-5 text-gray-500 group-hover:text-uzum transition-colors"></i>
+          <span class="text-[10px] text-gray-400 hidden sm:block">Profil</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════ CATEGORY PILLS ════════════ -->
+  <div class="bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar">
+      <div id="pillsContainer" class="flex items-center gap-2 min-w-max"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ HERO BANNER ═══════════════ -->
+  <main class="max-w-7xl mx-auto px-4 py-6">
+
+    <!-- Hero Slider -->
+    <div class="relative rounded-3xl overflow-hidden mb-8" style="min-height:300px;">
+      <div id="heroSlider" class="relative w-full" style="height:320px;">
+
+        <!-- Slide 1 -->
+        <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-100 hero-gradient flex items-center px-10 md:px-16" data-slide="0">
+          <div class="z-10 max-w-lg">
+            <span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4 backdrop-blur-sm">🔥 Maxsus taklif</span>
+            <h2 class="text-white text-3xl md:text-5xl font-black leading-tight mb-3">
+              Yangi Yil<br/>chegirmalari!
+            </h2>
+            <p class="text-white/80 text-sm md:text-base mb-6 font-medium">50% gacha chegirma. Faqat bugun!</p>
+            <button class="bg-white text-uzum font-bold px-8 py-3 rounded-xl text-sm hover:shadow-xl transition-all hover:scale-105 shadow-lg">
+              Xarid qilish →
+            </button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1592950630581-03cb41342cc5?w=400&q=80"
+            class="absolute right-0 top-0 h-full w-1/2 object-cover opacity-30 md:opacity-60" alt="banner" />
+          <div class="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 hero-gradient-2 flex items-center px-10 md:px-16" data-slide="1">
+          <div class="z-10 max-w-lg">
+            <span class="inline-block bg-blue-500/20 text-blue-300 text-xs font-semibold px-3 py-1 rounded-full mb-4 border border-blue-400/30">📱 Elektronika</span>
+            <h2 class="text-white text-3xl md:text-5xl font-black leading-tight mb-3">
+              Eng so'nggi<br/>smartfonlar
+            </h2>
+            <p class="text-white/70 text-sm md:text-base mb-6">0% to'lovga ulash imkoniyati bilan</p>
+            <button class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-bold px-8 py-3 rounded-xl text-sm hover:shadow-xl transition-all hover:scale-105 shadow-lg">
+              Ko'rish →
+            </button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80"
+            class="absolute right-0 top-0 h-full w-1/2 object-cover opacity-40" alt="banner" />
+          <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/40 to-transparent"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 hero-gradient-3 flex items-center px-10 md:px-16" data-slide="2">
+          <div class="z-10 max-w-lg">
+            <span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">👗 Moda</span>
+            <h2 class="text-white text-3xl md:text-5xl font-black leading-tight mb-3">
+              Yozgi<br/>kolleksiya
+            </h2>
+            <p class="text-white/80 text-sm md:text-base mb-6">Yangi trendlar – eng qulay narxda</p>
+            <button class="bg-white text-emerald-600 font-bold px-8 py-3 rounded-xl text-sm hover:shadow-xl transition-all hover:scale-105 shadow-lg">
+              Uslubni tanlang →
+            </button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&q=80"
+            class="absolute right-0 top-0 h-full w-1/2 object-cover opacity-50" alt="banner" />
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/80 via-emerald-900/20 to-transparent"></div>
+        </div>
+
+      </div>
+
+      <!-- Slider Dots -->
+      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+        <button onclick="goSlide(0)" class="slider-dot h-2 w-2 rounded-full bg-white/50 transition-all active" data-dot="0"></button>
+        <button onclick="goSlide(1)" class="slider-dot h-2 w-2 rounded-full bg-white/50 transition-all" data-dot="1"></button>
+        <button onclick="goSlide(2)" class="slider-dot h-2 w-2 rounded-full bg-white/50 transition-all" data-dot="2"></button>
+      </div>
+
+      <!-- Slider Arrows -->
+      <button onclick="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 rounded-full transition-all">
+        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+      </button>
+      <button onclick="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 rounded-full transition-all">
+        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- ═══ PROMO STRIPS ════════════════════════════════════════════════════ -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div class="flex items-center gap-3 bg-uzum-pale rounded-2xl px-5 py-4 border border-uzum/10">
+        <div class="w-10 h-10 bg-uzum rounded-xl flex items-center justify-center shrink-0">
+          <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="font-bold text-sm text-gray-800">Tezkor yetkazib berish</div>
+          <div class="text-xs text-gray-500">1–3 ish kuni ichida</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 bg-green-50 rounded-2xl px-5 py-4 border border-green-100">
+        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center shrink-0">
+          <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="font-bold text-sm text-gray-800">Kafolatlangan sifat</div>
+          <div class="text-xs text-gray-500">30 kun qaytarish imkoni</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 bg-orange-50 rounded-2xl px-5 py-4 border border-orange-100">
+        <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shrink-0">
+          <i data-lucide="credit-card" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="font-bold text-sm text-gray-800">0% bo'lib to'lash</div>
+          <div class="text-xs text-gray-500">12 oyga muddatli to'lov</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FLASH SALE STRIP ═══════════════════════════════════════════════ -->
+    <div class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <div class="bg-red-500 text-white text-xs font-black px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-lg shadow-red-200">
+          <i data-lucide="flame" class="w-3.5 h-3.5"></i> FLASH SALE
+        </div>
+        <h2 class="text-xl font-black text-gray-900">Kunning takliflari</h2>
+        <div class="hidden sm:flex items-center gap-1 bg-uzum text-white text-xs font-bold px-3 py-1.5 rounded-lg" id="countdown">
+          <i data-lucide="timer" class="w-3.5 h-3.5"></i>
+          <span id="timeLeft">05:32:18</span>
+        </div>
+      </div>
+      <a href="#" class="text-uzum text-sm font-semibold hover:underline flex items-center gap-1">
+        Barchasi <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ PRODUCT GRID ════════════ -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mb-12" id="productGrid"></div>
+
+    <!-- ═══ SECOND SECTION HEADING ══════════════════════════════════════════ -->
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="text-xl font-black text-gray-900">Elektronika va gadjetlar</h2>
+      <a href="#" class="text-uzum text-sm font-semibold hover:underline flex items-center gap-1">
+        Ko'proq <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-12" id="electronicsGrid"></div>
+
+    <!-- ═══ BRAND BANNER ═══════════════════════════════════════════════════ -->
+    <div class="rounded-3xl overflow-hidden mb-12 relative" style="background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%); min-height: 180px;">
+      <div class="flex items-center justify-between h-full px-10 py-10">
+        <div>
+          <div class="text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">Maxsus taklif</div>
+          <h3 class="text-white text-2xl md:text-4xl font-black mb-3 leading-tight">Ilovani yuklab oling<br/>va <span class="text-purple-300">100 000 so'm</span> oling!</h3>
+          <p class="text-white/60 text-sm mb-5">Birinchi buyurtmangizda sovg'a kupon</p>
+          <div class="flex gap-3 flex-wrap">
+            <button class="bg-white text-gray-900 font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 hover:shadow-xl transition-all">
+              <i data-lucide="smartphone" class="w-4 h-4"></i> App Store
+            </button>
+            <button class="bg-white/10 border border-white/20 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 hover:bg-white/20 transition-all backdrop-blur-sm">
+              <i data-lucide="play" class="w-4 h-4"></i> Google Play
+            </button>
+          </div>
+        </div>
+        <div class="hidden md:block shrink-0">
+          <div class="w-40 h-40 bg-white/5 rounded-3xl border border-white/10 flex items-center justify-center backdrop-blur-sm relative">
+            <div class="w-28 h-28 bg-gradient-to-br from-uzum to-purple-400 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-900">
+              <span class="text-white font-black text-4xl">U</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CATEGORIES SECTION ═══════════════════════════════════════════ -->
+    <div class="mb-12">
+      <h2 class="text-xl font-black text-gray-900 mb-5">Barcha kategoriyalar</h2>
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3" id="allCategories"></div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════ FOOTER ════════════════════ -->
+  <footer class="bg-gray-900 text-gray-300 pt-14 pb-8 mt-8">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+
+        <!-- Logo & About -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-uzum to-purple-400 flex items-center justify-center">
+              <span class="text-white font-black text-sm">U</span>
+            </div>
+            <div>
+              <div class="font-black text-lg text-white tracking-tight leading-none">uzum</div>
+              <div class="text-[9px] text-gray-500 font-medium tracking-widest uppercase">market</div>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">O'zbekistondagi eng yirik online savdo platformasi. Millionlab mahsulotlar – eng yaxshi narxlarda.</p>
+          <div class="flex gap-3">
+            <a href="#" class="w-8 h-8 bg-gray-800 hover:bg-uzum rounded-lg flex items-center justify-center transition-colors">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-gray-800 hover:bg-blue-500 rounded-lg flex items-center justify-center transition-colors">
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-gray-800 hover:bg-red-500 rounded-lg flex items-center justify-center transition-colors">
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Haridorlar uchun -->
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Haridorlar uchun</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-gray-500"></i>Ko'p so'raladigan savollar</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="truck" class="w-3.5 h-3.5 text-gray-500"></i>Yetkazib berish</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-gray-500"></i>Qaytarish siyosati</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="credit-card" class="w-3.5 h-3.5 text-gray-500"></i>To'lov usullari</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-gray-500"></i>Buyurtmani kuzatish</a></li>
+          </ul>
+        </div>
+
+        <!-- Kompaniya -->
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Kompaniya</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="info" class="w-3.5 h-3.5 text-gray-500"></i>Biz haqimizda</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="briefcase" class="w-3.5 h-3.5 text-gray-500"></i>Karyera</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="newspaper" class="w-3.5 h-3.5 text-gray-500"></i>Yangiliklar</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="shield" class="w-3.5 h-3.5 text-gray-500"></i>Maxfiylik siyosati</a></li>
+            <li><a href="#" class="hover:text-uzum transition-colors flex items-center gap-2"><i data-lucide="file-text" class="w-3.5 h-3.5 text-gray-500"></i>Foydalanish shartlari</a></li>
+          </ul>
+        </div>
+
+        <!-- App Download -->
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Ilovani yuklab oling</h4>
+          <p class="text-gray-400 text-sm mb-4">Telefonda eng qulay xarid tajribasi</p>
+          <div class="space-y-3">
+            <a href="#" class="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl px-4 py-3 transition-colors group">
+              <i data-lucide="smartphone" class="w-6 h-6 text-gray-400 group-hover:text-white"></i>
+              <div>
+                <div class="text-[10px] text-gray-400">Yuklab oling</div>
+                <div class="text-sm font-bold text-white">App Store</div>
+              </div>
+            </a>
+            <a href="#" class="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl px-4 py-3 transition-colors group">
+              <i data-lucide="play" class="w-6 h-6 text-gray-400 group-hover:text-green-400"></i>
+              <div>
+                <div class="text-[10px] text-gray-400">Yuklab oling</div>
+                <div class="text-sm font-bold text-white">Google Play</div>
+              </div>
+            </a>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-sm">
+            <i data-lucide="phone" class="w-4 h-4 text-uzum"></i>
+            <a href="tel:1234" class="font-bold text-white hover:text-uzum transition-colors">1234</a>
+            <span class="text-gray-500 text-xs">(bepul)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-gray-500 text-xs">© 2024 Uzum Market. Barcha huquqlar himoyalangan.</p>
+        <div class="flex items-center gap-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/200px-Visa_Inc._logo.svg.png" alt="Visa" class="h-5 opacity-50 hover:opacity-80 transition-opacity" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/200px-Mastercard_2019_logo.svg.png" alt="Mastercard" class="h-5 opacity-50 hover:opacity-80 transition-opacity" />
+          <div class="text-gray-500 text-xs font-medium">HUMO</div>
+          <div class="text-gray-500 text-xs font-medium">UZCARD</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ CART TOAST ═════════════════════════════════════════════════════ -->
+  <div id="cartToast"
+    class="fixed bottom-6 right-6 bg-uzum text-white px-5 py-3 rounded-2xl shadow-2xl shadow-uzum/30 text-sm font-semibold flex items-center gap-2 translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+    <span>Savatga qo'shildi!</span>
+  </div>
+
+  <script>
+    // ═══════ DATA ═══════════════════════════════════════════════════════════
+    const categories = [
+      { name: 'Elektronika', icon: 'smartphone', color: 'bg-blue-100 text-blue-600' },
+      { name: 'Kiyim-kechak', icon: 'shirt', color: 'bg-pink-100 text-pink-600' },
+      { name: 'Uy jihozlari', icon: 'sofa', color: 'bg-amber-100 text-amber-600' },
+      { name: "Go'zallik", icon: 'sparkles', color: 'bg-purple-100 text-purple-600' },
+      { name: 'Sport', icon: 'dumbbell', color: 'bg-green-100 text-green-600' },
+      { name: 'Bolalar', icon: 'baby', color: 'bg-yellow-100 text-yellow-600' },
+      { name: 'Oziq-ovqat', icon: 'apple', color: 'bg-red-100 text-red-600' },
+      { name: 'Kitoblar', icon: 'book-open', color: 'bg-indigo-100 text-indigo-600' },
+      { name: 'Avtomobil', icon: 'car', color: 'bg-gray-100 text-gray-600' },
+      { name: 'Bog\'', icon: 'flower-2', color: 'bg-lime-100 text-lime-600' },
+      { name: 'Maishiy', icon: 'washing-machine', color: 'bg-cyan-100 text-cyan-600' },
+      { name: 'Sog\'liq', icon: 'heart-pulse', color: 'bg-rose-100 text-rose-600' },
+    ];
+
+    const products = [
+      { id:1, name: 'Nike Air Max 270 Erkaklar krossovkasi', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80', price: 1290000, oldPrice: 1890000, rating: 4.8, reviews: 2341, monthly: '107 500', badge: 'YANGI', badgeColor: 'bg-blue-500' },
+      { id:2, name: "Apple iPhone 15 Pro 256GB Natural Titanium", img: 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=400&q=80', price: 15490000, oldPrice: 17990000, rating: 4.9, reviews: 8812, monthly: '1 290 833', badge: '-14%', badgeColor: 'bg-red-500' },
+      { id:3, name: "Samsung QLED 55\" Smart TV 4K Ultra HD", img: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=400&q=80', price: 8990000, oldPrice: 11500000, rating: 4.7, reviews: 1203, monthly: '749 167', badge: '-22%', badgeColor: 'bg-red-500' },
+      { id:4, name: "Adidas Originals Ayollar sport kostyumi", img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80', price: 890000, oldPrice: 1290000, rating: 4.6, reviews: 567, monthly: '74 167', badge: 'HIT', badgeColor: 'bg-orange-500' },
+      { id:5, name: "Sony WH-1000XM5 Simsiz naushniklar", img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80', price: 3490000, oldPrice: 4200000, rating: 4.9, reviews: 3401, monthly: '290 833', badge: '-17%', badgeColor: 'bg-red-500' },
+      { id:6, name: "MacBook Air M2 13\" 8GB/256GB Space Grey", img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80', price: 18990000, oldPrice: 21500000, rating: 4.9, reviews: 4512, monthly: '1 582 500', badge: 'YANGI', badgeColor: 'bg-blue-500' },
+      { id:7, name: "Erkaklar charm sumkasi – biznes stil", img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80', price: 590000, oldPrice: 850000, rating: 4.4, reviews: 234, monthly: '49 167', badge: '-31%', badgeColor: 'bg-red-500' },
+      { id:8, name: "Xiaomi Robot Vacuum Cleaner S10 Pro", img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', price: 2890000, oldPrice: 3600000, rating: 4.7, reviews: 1891, monthly: '240 833', badge: 'HIT', badgeColor: 'bg-orange-500' },
+    ];
+
+    const electronics = [
+      { id:9, name: 'iPad Pro 12.9" M2 WiFi 128GB', img: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&q=80', price: 12490000, oldPrice: 14000000, rating: 4.8, reviews: 921, monthly: '1 040 833', badge: '-11%', badgeColor: 'bg-red-500' },
+      { id:10, name: 'DJI Mini 3 Pro Drone kamera', img: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&q=80', price: 7990000, oldPrice: 9500000, rating: 4.7, reviews: 432, monthly: '665 833', badge: 'YANGI', badgeColor: 'bg-blue-500' },
+      { id:11, name: 'Canon EOS R50 Mirrorless kamera', img: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&q=80', price: 9490000, oldPrice: 11000000, rating: 4.8, reviews: 678, monthly: '790 833', badge: '-14%', badgeColor: 'bg-red-500' },
+      { id:12, name: 'Apple Watch Series 9 45mm Midnight', img: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80', price: 4290000, oldPrice: 5000000, rating: 4.9, reviews: 2103, monthly: '357 500', badge: 'HIT', badgeColor: 'bg-orange-500' },
+    ];
+
+    // ═══════ CART ════════════════════════════════════════════════════════════
+    let cartCount = 0;
+
+    function addToCart(productId, btn) {
+      cartCount++;
+      const badge = document.getElementById('cartBadge');
+      badge.textContent = cartCount;
+      badge.classList.remove('hidden');
+      badge.classList.add('flex');
+      const icon = document.getElementById('cartIcon');
+      icon.classList.add('cart-badge-animate');
+      btn.classList.add('bg-uzum-dark');
+      setTimeout(() => { icon.classList.remove('cart-badge-animate'); btn.classList.remove('bg-uzum-dark'); }, 500);
+      showToast();
+    }
+
+    function showToast() {
+      const t = document.getElementById('cartToast');
+      t.classList.remove('translate-y-20','opacity-0');
+      t.classList.add('translate-y-0','opacity-100');
+      setTimeout(() => { t.classList.add('translate-y-20','opacity-0'); t.classList.remove('translate-y-0','opacity-100'); }, 2200);
+    }
+
+    function openCart() {
+      if (cartCount > 0) showToast();
+    }
+
+    // ═══════ PRODUCT CARD RENDERER ══════════════════════════════════════════
+    function renderStars(rating) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(rating)) html += `<i data-lucide="star" class="w-3 h-3 star-filled fill-amber-400 text-amber-400"></i>`;
+        else if (i - 0.5 <= rating) html += `<i data-lucide="star" class="w-3 h-3 text-amber-300 fill-amber-200"></i>`;
+        else html += `<i data-lucide="star" class="w-3 h-3 star-empty fill-gray-200"></i>`;
+      }
+      return html;
+    }
+
+    function formatPrice(p) { return p.toLocaleString('uz-UZ') + ' so\'m'; }
+
+    function renderProductCard(p) {
+      const disc = Math.round((1 - p.price / p.oldPrice) * 100);
+      return `
+        <div class="bg-white rounded-2xl overflow-hidden card-hover border border-gray-100 flex flex-col group">
+          <div class="relative overflow-hidden bg-gray-50" style="height:180px;">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+            <span class="absolute top-2 left-2 ${p.badgeColor} text-white text-[10px] font-bold px-2 py-0.5 rounded-md">${p.badge}</span>
+            <button class="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-50">
+              <i data-lucide="heart" class="w-4 h-4 text-gray-400 hover:text-red-400 transition-colors"></i>
+            </button>
+          </div>
+          <div class="p-3 flex flex-col flex-1">
+            <p class="text-xs text-gray-700 font-medium leading-snug mb-2 line-clamp-2 flex-1">${p.name}</p>
+            <div class="flex items-center gap-1 mb-2">
+              <div class="flex items-center gap-0.5">${renderStars(p.rating)}</div>
+              <span class="text-[10px] text-gray-400 font-medium">${p.rating} (${p.reviews.toLocaleString()})</span>
+            </div>
+            <div class="inline-flex items-center gap-1 bg-uzum-pale text-uzum text-[10px] font-bold px-2 py-1 rounded-lg mb-2 w-fit">
+              <i data-lucide="calendar" class="w-3 h-3"></i> ${p.monthly} so'm/oyiga
+            </div>
+            <div class="flex items-end justify-between mt-auto">
+              <div>
+                <div class="text-[11px] text-gray-400 line-through leading-none">${formatPrice(p.oldPrice)}</div>
+                <div class="text-sm font-black text-gray-900 leading-tight">${formatPrice(p.price)}</div>
+              </div>
+              <button onclick="addToCart(${p.id}, this)"
+                class="add-to-cart-btn w-8 h-8 bg-uzum text-white rounded-xl flex items-center justify-center shadow-lg shadow-uzum/30 hover:bg-uzum-dark">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // ═══════ KATALOG DROPDOWN ════════════════════════════════════════════════
+    let katalogOpen = false;
+
+    function toggleKatalog() {
+      katalogOpen = !katalogOpen;
+      const menu = document.getElementById('katalogMenu');
+      const chevron = document.getElementById('katalogChevron');
+      menu.classList.toggle('open', katalogOpen);
+      chevron.style.transform = katalogOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#katalogBtn') && !e.target.closest('#katalogMenu')) {
+        katalogOpen = false;
+        document.getElementById('katalogMenu').classList.remove('open');
+        document.getElementById('katalogChevron').style.transform = 'rotate(0deg)';
+      }
+    });
+
+    // ═══════ HERO SLIDER ════════════════════════════════════════════════════
+    let currentSlide = 0;
+    const totalSlides = 3;
+    let slideInterval;
+
+    function goSlide(n) {
+      document.querySelectorAll('.hero-slide').forEach((s, i) => {
+        s.style.opacity = i === n ? '1' : '0';
+        s.style.zIndex = i === n ? '1' : '0';
+      });
+      document.querySelectorAll('.slider-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === n);
+      });
+      currentSlide = n;
+    }
+
+    function nextSlide() { goSlide((currentSlide + 1) % totalSlides); }
+    function prevSlide() { goSlide((currentSlide - 1 + totalSlides) % totalSlides); }
+
+    // ═══════ LANGUAGE ════════════════════════════════════════════════════════
+    function setLang(lang) {
+      document.getElementById('lang-uz').className = lang === 'uz' ? 'font-semibold text-uzum' : 'hover:text-uzum transition-colors text-gray-500';
+      document.getElementById('lang-ru').className = lang === 'ru' ? 'font-semibold text-uzum' : 'hover:text-uzum transition-colors text-gray-500';
+    }
+
+    // ═══════ COUNTDOWN ═══════════════════════════════════════════════════════
+    function updateCountdown() {
+      const now = new Date();
+      const end = new Date(); end.setHours(23, 59, 59, 0);
+      const diff = end - now;
+      const h = String(Math.floor(diff / 3600000)).padStart(2,'0');
+      const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+      const s = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+      const el = document.getElementById('timeLeft');
+      if (el) el.textContent = `${h}:${m}:${s}`;
+    }
+
+    // ═══════ CATEGORY PILLS ══════════════════════════════════════════════════
+    function renderPills() {
+      const c = document.getElementById('pillsContainer');
+      const pills = ['Hammasi', ...categories.map(x => x.name)];
+      pills.forEach((p, i) => {
+        const btn = document.createElement('button');
+        btn.className = `px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${i === 0 ? 'bg-uzum text-white shadow-lg shadow-uzum/20' : 'bg-gray-100 text-gray-600 hover:bg-uzum-pale hover:text-uzum'}`;
+        btn.textContent = p;
+        btn.onclick = () => {
+          document.querySelectorAll('#pillsContainer button').forEach(b => b.className = 'px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-gray-100 text-gray-600 hover:bg-uzum-pale hover:text-uzum');
+          btn.className = 'px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-uzum text-white shadow-lg shadow-uzum/20';
+        };
+        c.appendChild(btn);
+      });
+    }
+
+    // ═══════ KATEGORIES ALL ════════════════════════════════════════════════
+    function renderAllCategories() {
+      const grid = document.getElementById('allCategories');
+      categories.forEach(cat => {
+        const div = document.createElement('div');
+        div.className = 'category-item flex flex-col items-center gap-2 p-3 bg-white rounded-2xl border border-gray-100 hover:border-uzum/20 hover:shadow-lg transition-all cursor-pointer group card-hover';
+        div.innerHTML = `
+          <div class="category-icon w-12 h-12 ${cat.color} rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+            <i data-lucide="${cat.icon}" class="w-6 h-6"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 text-center leading-tight">${cat.name}</span>`;
+        grid.appendChild(div);
+      });
+    }
+
+    // ═══════ KATALOG MENU ITEMS ════════════════════════════════════════════
+    function renderKatalogItems() {
+      const container = document.getElementById('katalogItems');
+      categories.forEach(cat => {
+        const item = document.createElement('button');
+        item.className = 'w-full flex items-center gap-3 px-4 py-2.5 hover:bg-uzum-pale transition-colors text-sm text-gray-700 hover:text-uzum group';
+        item.innerHTML = `
+          <span class="w-7 h-7 ${cat.color} rounded-lg flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+            <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
+          </span>
+          <span class="font-medium">${cat.name}</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-auto text-gray-300 group-hover:text-uzum"></i>`;
+        item.onclick = () => toggleKatalog();
+        container.appendChild(item);
+      });
+    }
+
+    // ═══════ INIT ════════════════════════════════════════════════════════════
+    document.addEventListener('DOMContentLoaded', () => {
+      // Render products
+      const grid = document.getElementById('productGrid');
+      products.forEach(p => { grid.innerHTML += renderProductCard(p); });
+
+      const egrid = document.getElementById('electronicsGrid');
+      electronics.forEach(p => { egrid.innerHTML += renderProductCard(p); });
+
+      renderPills();
+      renderAllCategories();
+      renderKatalogItems();
+
+      // Init Lucide icons
+      lucide.createIcons();
+
+      // Start slider auto-rotate
+      slideInterval = setInterval(nextSlide, 4000);
+
+      // Init countdown
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // Init slider z-index
+      document.querySelectorAll('.hero-slide').forEach((s, i) => {
+        s.style.zIndex = i === 0 ? '1' : '0';
+        s.style.transition = 'opacity 0.7s ease';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -3,6 +3,10 @@
 O'zbekistondagi eng yirik onlayn bozor — **Uzum Market** veb-sayti bosh sahifasining mukammal va to'liq moslashuvchan (responsive) frontend kloni. Ushbu loyiha zamonaviy UI/UX dizayn elementlari va interaktiv funksiyalarni faqat frontend texnologiyalari yordamida qayta tiklash maqsadida yaratilgan.
 
 # UZBEK CODER
+
+<div align="center">
+  <img src="./banner.svg" width="100%"/>
+</div>
 ---
 
 ## ✨ Loyihaning Asosiy Imkoniyatlari (Features)
